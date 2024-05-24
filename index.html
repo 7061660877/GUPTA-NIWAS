@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUPTA NIWAS BILL GENERATOR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label, input, p, h1 {
+            margin: 10px 0;
+        }
+        input[type="text"], input[type="number"], input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: calc(100% - 24px);
+            margin: 10px 0;
+        }
+        .result {
+            font-weight: bold;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button.print {
+            background-color: #007bff;
+        }
+        @media print {
+            body, .container {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: auto;
+                box-shadow: none;
+                background-color: white;
+            }
+            .buttons, .buttons * {
+                display: none !important;
+            }
+            .container {
+                border: none;
+                page-break-inside: avoid;
+                margin: 0 auto;
+                padding: 10px;
+                width: 100%;
+                max-width: 100%;
+            }
+            label, p {
+                font-size: 12px;
+            }
+            input {
+                font-size: 12px;
+                padding: 8px;
+                width: calc(100% - 16px);
+            }
+            p {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="billForm">
+            <label for="flatNo">Flat No</label>
+            <input type="text" id="flatNo" placeholder="Enter Flat No" required>
+            
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter Name of Renter" required>
+            
+            <label style="font-size: larger; color: black;">BIJLI BILL</label>
+            
+            <label for="unitPrice">Unit Price (Rs)</label>
+            <input type="number" id="unitPrice" placeholder="Enter Unit Price" required>
+            
+            <label for="currentReading">Current Reading</label>
+            <input type="number" id="currentReading" placeholder="Enter current reading" required>
+            
+            <label for="previousReading">Previous Reading</label>
+            <input type="number" id="previousReading" placeholder="Enter previous reading" required>
+            
+            <p>Unit = <span id="units"></span></p>
+            <p>Rs <span id="amount"></span></p>
+            
+            <label  style="font-size: larger; color: black;" for="rent">Rent</label>
+            <p>From</p>
+            <input type="date" id="fromDate" required>
+            <p>To</p>
+            <input type="date" id="toDate" required>
+            <input type="number" id="rent" placeholder="Enter Rent" required>
+            
+            <p>Total Amount = <span id="totalAmount"></span></p>
+            
+            <p>Date</p>
+            <p>Customer Signature</p>
+            
+            <div class="buttons">
+                <button type="button" onclick="calculateBill()">Calculate</button>
+                <button type="button" class="print" onclick="printBill()">Print</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function calculateBill() {
+            const currentReading = parseFloat(document.getElementById('currentReading').value);
+            const previousReading = parseFloat(document.getElementById('previousReading').value);
+            const rent = parseFloat(document.getElementById('rent').value);
+            const unitPrice = parseFloat(document.getElementById('unitPrice').value);
+            
+            if (isNaN(currentReading) || isNaN(previousReading) || isNaN(rent) || isNaN(unitPrice)) {
+                alert("Please enter valid numbers for readings, rent, and unit price.");
+                return;
+            }
+            
+            const units = currentReading - previousReading;
+            const bijliBill = units * unitPrice;
+            const totalAmount = bijliBill + rent;
+            
+            document.getElementById('units').textContent = units;
+            document.getElementById('amount').textContent = bijliBill.toFixed(2);
+            document.getElementById('totalAmount').textContent = totalAmount.toFixed(2);
+        }
+
+        function printBill() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
