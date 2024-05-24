@@ -122,7 +122,7 @@
             
             <p>Total Amount = <span id="totalAmount"></span></p>
             
-            <p>Date</p>
+            <p>Date: <span id="currentDate"></span></p>
             <p>Customer Signature</p>
             
             <div class="buttons">
@@ -151,6 +151,10 @@
             document.getElementById('units').textContent = units;
             document.getElementById('amount').textContent = bijliBill.toFixed(2);
             document.getElementById('totalAmount').textContent = totalAmount.toFixed(2);
+
+            // Set the current date
+            const currentDate = new Date().toLocaleDateString();
+            document.getElementById('currentDate').textContent = currentDate;
         }
 
         function printBill() {
